@@ -294,5 +294,5 @@ public:
 	virtual void FillAntibot(CAntibotRoundData *pData) = 0;
 };
 
-extern IGameServer *CreateGameServer();
+extern IGameServer *CreateModGameServer();
 #endif

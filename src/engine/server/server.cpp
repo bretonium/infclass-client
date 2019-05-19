@@ -3496,7 +3496,7 @@ int main(int argc, const char **argv) // ignore_convention
 	// create the components
 	IEngine *pEngine = CreateEngine("DDNet", Silent, 2);
 	IEngineMap *pEngineMap = CreateEngineMap();
-	IGameServer *pGameServer = CreateGameServer();
+	IGameServer *pGameServer = CreateModGameServer();
 	IConsole *pConsole = CreateConsole(CFGFLAG_SERVER | CFGFLAG_ECON);
 	IEngineMasterServer *pEngineMasterServer = CreateEngineMasterServer();
 	IStorage *pStorage = CreateStorage("Teeworlds", IStorage::STORAGETYPE_SERVER, argc, argv); // ignore_convention

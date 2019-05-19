@@ -69,6 +69,7 @@ struct CScoreRandomMapResult;
 
 class CGameContext : public IGameServer
 {
+protected:
 	IServer *m_pServer;
 	CConfig *m_pConfig;
 	IConsole *m_pConsole;
@@ -293,7 +294,7 @@ public:
 
 	std::shared_ptr<CScoreRandomMapResult> m_SqlRandomMapResult;
 
-private:
+protected:
 	bool m_VoteWillPass;
 	class CScore *m_pScore;
 
