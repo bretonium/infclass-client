@@ -17,6 +17,8 @@ public:
 
 	void InitConsoleCommands();
 
+	void OnPreProcessedMessage(int MsgID, CUnpacker *pUnpacker, int ClientID, void *pRawMsg) override;
+
 	void OnClientConnected(int ClientID) override;
 
 protected:
