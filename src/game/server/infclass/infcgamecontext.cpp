@@ -288,4 +288,22 @@ void CInfClassGameContext::OnClientConnected(int ClientID)
 	Server()->ExpireServerInfo();
 }
 
+void CInfClassGameContext::AnnounceSkinChange(int ClientID)
+{
+	protocol7::CNetMsg_Sv_SkinChange Msg;
+	Msg.m_ClientID = ClientID;
+	for(int p = 0; p < protocol7::NUM_SKINPARTS; p++)
+	{
+		Msg.m_apSkinPartNames[p] = m_apPlayers[ClientID]->m_TeeInfos.m_apSkinPartNames[p];
+		Msg.m_aUseCustomColors[p] = m_apPlayers[ClientID]->m_TeeInfos.m_aUseCustomColors[p];
+		Msg.m_aSkinPartColors[p] = m_apPlayers[ClientID]->m_TeeInfos.m_aSkinPartColors[p];
+	}
+	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL | MSGFLAG_NORECORD, -1);
+}
+
+void CInfClassGameContext::SendSkinChange(int ClientID, int TargetID)
+{
+	//CInfClassPlayer *pPlayer = static_cast<CInfClassPlayer*>(m_apPlayers[ClientID]);
+}
+
 IGameServer *CreateModGameServer() { return new CInfClassGameContext; }
