@@ -1,6 +1,8 @@
 #include "infcgamecontext.h"
 #include "infcgamecontroller.h"
+#include "infcplayer.h"
 
+#include <base/system.h>
 #include <engine/server/server.h>
 #include <engine/shared/config.h>
 #include <engine/shared/linereader.h>
@@ -131,6 +133,41 @@ void CInfClassGameContext::InitConsoleCommands()
 	Console()->Chain("sv_timelimit", ConchainGameinfoUpdate, this);
 	Console()->Chain("sv_matches_per_map", ConchainGameinfoUpdate, this);
 #endif
+}
+
+void CInfClassGameContext::OnClientConnected(int ClientID)
+{
+	{
+		bool Empty = true;
+		for(auto &pPlayer : m_apPlayers)
+		{
+			if(pPlayer)
+			{
+				Empty = false;
+				break;
+			}
+		}
+		if(Empty)
+		{
+			m_NonEmptySince = Server()->Tick();
+		}
+	}
+
+	// Check which team the player should be on
+	const int StartTeam = g_Config.m_SvTournamentMode ? TEAM_SPECTATORS : m_pController->GetAutoTeam(ClientID);
+
+	if(!m_apPlayers[ClientID])
+		m_apPlayers[ClientID] = new(ClientID) CInfClassPlayer(this, ClientID, StartTeam);
+	else
+	{
+		delete m_apPlayers[ClientID];
+		m_apPlayers[ClientID] = new(ClientID) CInfClassPlayer(this, ClientID, StartTeam);
+	}
+
+	SendMotd(ClientID);
+	SendSettings(ClientID);
+
+	Server()->ExpireServerInfo();
 }
 
 IGameServer *CreateModGameServer() { return new CInfClassGameContext; }

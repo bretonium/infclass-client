@@ -17,6 +17,8 @@ public:
 
 	void InitConsoleCommands();
 
+	void OnClientConnected(int ClientID) override;
+
 protected:
 	CGameControllerInfClass *m_pInfcGameController = nullptr;
 };
