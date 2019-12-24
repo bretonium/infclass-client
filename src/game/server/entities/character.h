@@ -80,7 +80,7 @@ public:
 	bool IsPaused() const { return m_Paused; }
 	class CPlayer *GetPlayer() { return m_pPlayer; }
 
-private:
+protected:
 	// player controlling this character
 	class CPlayer *m_pPlayer;
 
