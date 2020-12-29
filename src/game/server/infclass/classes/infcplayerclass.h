@@ -28,6 +28,12 @@ static const int NUM_SKINPARTS = protocol7::NUM_SKINPARTS;
 #endif
 
 class CInfClassCharacter;
+
+enum class JumpType {
+	Air,
+	Ground,
+};
+
 class CInfClassPlayerClass
 {
 public:
@@ -40,6 +46,8 @@ public:
 
 	// Events
 	virtual void OnCharacterSpawned();
+	virtual void OnGrounded() { }
+	virtual void OnJumped(JumpType jumpType);
 
 protected:
 	explicit CInfClassPlayerClass();

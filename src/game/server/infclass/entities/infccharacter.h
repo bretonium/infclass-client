@@ -11,12 +11,16 @@ class CInfClassCharacter : public CCharacter
 public:
 	CInfClassCharacter(CGameWorld *pWorld);
 
+	void Tick() override;
+
+	void EnableJump();
 	void TakeAllWeapons();
 
 	void SetClass(CInfClassPlayerClass *pClass);
 
 protected:
 	CInfClassPlayerClass *m_pClass;
+	bool m_Grounded = false;
 };
 
 #endif // GAME_SERVER_INFCLASS_ENTITIES_CHARACTER_H
