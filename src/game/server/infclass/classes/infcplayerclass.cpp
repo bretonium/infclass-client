@@ -30,3 +30,7 @@ void CInfClassPlayerClass::SetupSkin()
 		m_SkinInfo.m_aSkinPartColors[part] = 0;
 	}
 }
+
+void CInfClassPlayerClass::OnCharacterSpawned()
+{
+}
