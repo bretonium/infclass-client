@@ -27,10 +27,13 @@ static const int SKINPART_EYES = protocol7::SKINPART_EYES;
 static const int NUM_SKINPARTS = protocol7::NUM_SKINPARTS;
 #endif
 
+class CInfClassCharacter;
 class CInfClassPlayerClass
 {
 public:
 	virtual ~CInfClassPlayerClass() = default;
+
+	void SetCharacter(CInfClassCharacter *character);
 
 	const CTeeInfo &GetSkinInfo() const { return m_SkinInfo; }
 	virtual void SetupSkin();
@@ -39,6 +42,7 @@ protected:
 	explicit CInfClassPlayerClass();
 
 	CTeeInfo m_SkinInfo;
+	CInfClassCharacter *m_pCharacter = nullptr;
 };
 
 #endif // GAME_SERVER_INFCLASS_CLASSES_PLAYER_CLASS_H
