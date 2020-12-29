@@ -21,6 +21,7 @@ public:
 	CInfClassPlayer(CInfClassGameContext *pGameServer, int ClientID, int Team);
 
 	void TryRespawn() override;
+	void SyncSkin();
 	void SetCharacterClass(int ClassId);
 	void SetCharacterClass(CInfClassPlayerClass *pClass);
 
