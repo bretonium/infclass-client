@@ -133,6 +133,9 @@ void CInfClassGameContext::OnInit()
 
 void CInfClassGameContext::OnConsoleInit()
 {
+#ifdef TEEWOLRDS_0_7
+	CGameContext::OnConsoleInit();
+#else
 	m_pServer = Kernel()->RequestInterface<IServer>();
 	m_pConsole = Kernel()->RequestInterface<IConsole>();
 	m_pEngine = Kernel()->RequestInterface<IEngine>();
@@ -142,6 +145,9 @@ void CInfClassGameContext::OnConsoleInit()
 
 	// 0.6:
 	InitConsoleCommands();
+#endif
+    
+	Console()->Register("inf_set_class", "is", CFGFLAG_SERVER, ConSetClass, this, "Set the class of a player");
 }
 
 void CInfClassGameContext::InitConsoleCommands()
@@ -337,11 +343,48 @@ void CInfClassGameContext::AnnounceSkinChange(int ClientID)
 #endif
 }
 
+CInfClassPlayer *CInfClassGameContext::GetPlayer(int ClientID)
+{
+	return static_cast<CInfClassPlayer*>(m_apPlayers[ClientID]);
+}
+
 CInfClassPlayerClass *CInfClassGameContext::CreateInfClass(int ClassId)
 {
 	InfPlayerClassConstructor *constructor = m_ClassConstructors.at(ClassId);
 	CInfClassPlayerClass *infClass = constructor();
 	return infClass;
+}
+
+void CInfClassGameContext::ConSetClass(IConsole::IResult *pResult, void *pUserData)
+{
+	CInfClassGameContext *pSelf = static_cast<CInfClassGameContext *>(pUserData);
+	int PlayerID = pResult->GetInteger(0);
+	const char *pClassName = pResult->GetString(1);
+
+	CInfClassPlayer* pPlayer = pSelf->GetPlayer(PlayerID);
+	
+	if(!pPlayer)
+	{
+		pSelf->Console()->Print(IConsole::OUTPUT_LEVEL_STANDARD, "inf_set_class", "No such player");
+		return;
+	}
+
+	for(const auto &idToName : pSelf->m_ClassIdToName)
+	{
+		if(str_comp(pClassName, idToName.second) != 0)
+			continue;
+
+		int ClassId = idToName.first;
+		pPlayer->SetCharacterClass(ClassId);
+		char aBuf[256];
+		str_format(aBuf, sizeof(aBuf), "The admin changed the class of %s to %s", pSelf->Server()->ClientName(PlayerID), pClassName);
+		pSelf->SendChat(-1, CGameContext::CHAT_ALL, aBuf);
+
+		return;
+	}
+
+	pSelf->Console()->Print(IConsole::OUTPUT_LEVEL_STANDARD, "inf_set_class", "Unknown class");
+	return;
 }
 
 IGameServer *CreateModGameServer() { return new CInfClassGameContext; }
