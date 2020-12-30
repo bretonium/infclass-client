@@ -51,6 +51,9 @@ public:
 	void SetCharacter(CInfClassCharacter *character);
 
 	const CTeeInfo &GetSkinInfo() const { return m_SkinInfo; }
+	virtual const char *GetClassName() = 0;
+	virtual const char *GetClassDisplayName() = 0;
+
 	virtual void SetupSkin();
 
 	// Events
