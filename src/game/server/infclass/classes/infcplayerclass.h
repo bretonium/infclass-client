@@ -5,6 +5,7 @@
 // 0.6:
 
 #include <game/server/entity.h>
+#include <base/vmath.h>
 
 #ifdef TEEWORLDS_0_7
 #include <generated/protocol.h>
@@ -27,6 +28,14 @@ static const int SKINPART_EYES = protocol7::SKINPART_EYES;
 static const int NUM_SKINPARTS = protocol7::NUM_SKINPARTS;
 #endif
 
+class CConfig;
+class CGameContext;
+class CGameWorld;
+class CInfClassCharacter;
+class CInfClassGameContext;
+class CInfClassPlayer;
+class IServer;
+
 class CInfClassCharacter;
 
 enum class JumpType {
@@ -48,6 +57,17 @@ public:
 	virtual void OnCharacterSpawned();
 	virtual void OnGrounded() { }
 	virtual void OnJumped(JumpType jumpType);
+
+	CInfClassGameContext *GameContext() const;
+	CGameContext *GameServer() const;
+	CGameWorld *GameWorld() const;
+	CConfig *Config();
+	IServer *Server();
+	CInfClassPlayer *GetPlayer();
+	int GetCID();
+	vec2 GetPos() const;
+	vec2 GetDirection() const;
+	float GetProximityRadius() const;
 
 protected:
 	explicit CInfClassPlayerClass();

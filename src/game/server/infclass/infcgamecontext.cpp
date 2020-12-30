@@ -40,6 +40,11 @@ void CInfClassGameContext::RegisterTypes()
 	RegisterInfClassClass<CInfClassHero>();
 }
 
+CGameWorld *CInfClassGameContext::GameWorld()
+{
+	return &m_World;
+}
+
 void CInfClassGameContext::OnInit()
 {
 	RegisterTypes();
