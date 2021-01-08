@@ -23,11 +23,11 @@ class CPlayer
 
 public:
 	CPlayer(CGameContext *pGameServer, int ClientID, int Team);
-	~CPlayer();
+	virtual ~CPlayer();
 
 	void Reset();
 
-	void TryRespawn();
+	virtual void TryRespawn();
 	void Respawn(bool WeakHook = false); // with WeakHook == true the character will be spawned after all calls of Tick from other Players
 	CCharacter *ForceSpawn(vec2 Pos); // required for loading savegames
 	void SetTeam(int Team, bool DoChatMsg = true);
@@ -117,7 +117,7 @@ public:
 		int m_Max;
 	} m_Latency;
 
-private:
+protected:
 	CCharacter *m_pCharacter;
 	int m_NumInputs;
 	CGameContext *m_pGameServer;
