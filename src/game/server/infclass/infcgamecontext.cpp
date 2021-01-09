@@ -2,6 +2,9 @@
 #include "infcgamecontroller.h"
 #include "infcplayer.h"
 
+#include "classes/infected/hunter.h"
+#include "classes/humans/hero.h"
+
 #include <base/system.h>
 #include <engine/server/server.h>
 #include <engine/shared/config.h>
@@ -31,8 +34,16 @@ CInfClassGameContext::CInfClassGameContext()
 {
 }
 
+void CInfClassGameContext::RegisterTypes()
+{
+	RegisterInfClassClass<CInfClassHunter>();
+	RegisterInfClassClass<CInfClassHero>();
+}
+
 void CInfClassGameContext::OnInit()
 {
+	RegisterTypes();
+
 	// init everything
 	m_pServer = Kernel()->RequestInterface<IServer>();
 	m_pConfig = Kernel()->RequestInterface<IConfigManager>()->Values();
@@ -305,6 +316,15 @@ void CInfClassGameContext::OnClientConnected(int ClientID)
 
 void CInfClassGameContext::AnnounceSkinChange(int ClientID)
 {
+#ifdef TEEWORLDS_0_7
+	for(int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if(!m_apPlayers[i] || (!Server()->ClientIngame(i) && !m_apPlayers[i]->IsDummy()) || Server()->GetClientVersion(i) < MIN_SKINCHANGE_CLIENTVERSION)
+			continue;
+
+		SendSkinChange(ClientID, i);
+	}
+#else
 	protocol7::CNetMsg_Sv_SkinChange Msg;
 	Msg.m_ClientID = ClientID;
 	for(int p = 0; p < protocol7::NUM_SKINPARTS; p++)
@@ -314,11 +334,7 @@ void CInfClassGameContext::AnnounceSkinChange(int ClientID)
 		Msg.m_aSkinPartColors[p] = m_apPlayers[ClientID]->m_TeeInfos.m_aSkinPartColors[p];
 	}
 	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL | MSGFLAG_NORECORD, -1);
-}
-
-void CInfClassGameContext::SendSkinChange(int ClientID, int TargetID)
-{
-	//CInfClassPlayer *pPlayer = static_cast<CInfClassPlayer*>(m_apPlayers[ClientID]);
+#endif
 }
 
 CInfClassPlayerClass *CInfClassGameContext::CreateInfClass(int ClassId)

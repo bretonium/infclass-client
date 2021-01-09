@@ -17,6 +17,7 @@ public:
 
 	CGameControllerInfClass *GetController() const { return m_pInfcGameController; }
 
+	void RegisterTypes();
 	void OnInit() override;
 	void OnConsoleInit() override;
 
