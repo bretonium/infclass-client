@@ -22,6 +22,14 @@ CGameControllerDDRace::~CGameControllerDDRace()
 	// Nothing to clean
 }
 
+void CGameControllerDDRace::OnCharacterTouchedTile(CCharacter *pChr, int TileIndex)
+{
+}
+
+void CGameControllerDDRace::OnCharacterNextToTile(CCharacter *pChr, int TileIndex)
+{
+}
+
 void CGameControllerDDRace::OnPlayerDisconnect(CPlayer *pPlayer, const char *pReason)
 {
 	int ClientID = pPlayer->GetCID();

@@ -468,6 +468,14 @@ void IGameController::OnCharacterSpawn(class CCharacter *pChr)
 	pChr->GiveWeapon(WEAPON_GUN);
 }
 
+void IGameController::OnCharacterTouchedTile(CCharacter *pChr, int TileIndex)
+{
+}
+
+void IGameController::OnCharacterNextToTile(CCharacter *pChr, int TileIndex)
+{
+}
+
 void IGameController::DoWarmup(int Seconds)
 {
 	if(Seconds < 0)

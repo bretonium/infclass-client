@@ -1524,6 +1524,16 @@ void CCharacter::HandleTiles(int Index)
 	if(tcp)
 		m_TeleCheckpoint = tcp;
 
+	for (int TileIndex : { m_TileIndex, m_TileFIndex })
+	{
+		GameServer()->m_pController->OnCharacterTouchedTile(this, TileIndex);
+	}
+
+	for (int TileIndex : { Tile1, Tile2, Tile3, Tile4, FTile1, FTile2, FTile3, FTile4 })
+	{
+		GameServer()->m_pController->OnCharacterNextToTile(this, TileIndex);
+	}
+
 	// start
 	if(((m_TileIndex == TILE_START) || (m_TileFIndex == TILE_START) || FTile1 == TILE_START || FTile2 == TILE_START || FTile3 == TILE_START || FTile4 == TILE_START || Tile1 == TILE_START || Tile2 == TILE_START || Tile3 == TILE_START || Tile4 == TILE_START) && (m_DDRaceState == DDRACE_NONE || m_DDRaceState == DDRACE_FINISHED || (m_DDRaceState == DDRACE_STARTED && !Team() && g_Config.m_SvTeam != 3)))
 	{

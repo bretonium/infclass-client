@@ -15,6 +15,9 @@ public:
 	CGameControllerDDRace(class CGameContext *pGameServer);
 	~CGameControllerDDRace();
 
+	void OnCharacterTouchedTile(class CCharacter *pChr, int TileIndex) override;
+	void OnCharacterNextToTile(class CCharacter *pChr, int TileIndex) override;
+
 	void OnPlayerDisconnect(class CPlayer *pPlayer, const char *pReason) override;
 
 	void Tick() override;

@@ -99,6 +99,9 @@ public:
 	*/
 	virtual void OnCharacterSpawn(class CCharacter *pChr);
 
+	virtual void OnCharacterTouchedTile(class CCharacter *pChr, int TileIndex);
+	virtual void OnCharacterNextToTile(class CCharacter *pChr, int TileIndex);
+
 	/*
 		Function: OnEntity
 			Called when the map is loaded to process an entity
