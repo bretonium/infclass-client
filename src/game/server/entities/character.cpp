@@ -1534,42 +1534,6 @@ void CCharacter::HandleTiles(int Index)
 		GameServer()->m_pController->OnCharacterNextToTile(this, TileIndex);
 	}
 
-	// start
-	if(((m_TileIndex == TILE_START) || (m_TileFIndex == TILE_START) || FTile1 == TILE_START || FTile2 == TILE_START || FTile3 == TILE_START || FTile4 == TILE_START || Tile1 == TILE_START || Tile2 == TILE_START || Tile3 == TILE_START || Tile4 == TILE_START) && (m_DDRaceState == DDRACE_NONE || m_DDRaceState == DDRACE_FINISHED || (m_DDRaceState == DDRACE_STARTED && !Team() && g_Config.m_SvTeam != 3)))
-	{
-		if(Teams()->GetSaving(Team()))
-		{
-			if(m_LastStartWarning < Server()->Tick() - 3 * Server()->TickSpeed())
-			{
-				GameServer()->SendChatTarget(GetPlayer()->GetCID(), "You can't start while loading/saving of team is in progress");
-				m_LastStartWarning = Server()->Tick();
-			}
-			Die(GetPlayer()->GetCID(), WEAPON_WORLD);
-			return;
-		}
-		if(g_Config.m_SvTeam == 2 && (Team() == TEAM_FLOCK || Teams()->Count(Team()) <= 1))
-		{
-			if(m_LastStartWarning < Server()->Tick() - 3 * Server()->TickSpeed())
-			{
-				GameServer()->SendChatTarget(GetPlayer()->GetCID(), "You have to be in a team with other tees to start");
-				m_LastStartWarning = Server()->Tick();
-			}
-			Die(GetPlayer()->GetCID(), WEAPON_WORLD);
-			return;
-		}
-		if(g_Config.m_SvResetPickups)
-		{
-			ResetPickups();
-		}
-
-		Teams()->OnCharacterStart(m_pPlayer->GetCID());
-		m_CpActive = -2;
-	}
-
-	// finish
-	if(((m_TileIndex == TILE_FINISH) || (m_TileFIndex == TILE_FINISH) || FTile1 == TILE_FINISH || FTile2 == TILE_FINISH || FTile3 == TILE_FINISH || FTile4 == TILE_FINISH || Tile1 == TILE_FINISH || Tile2 == TILE_FINISH || Tile3 == TILE_FINISH || Tile4 == TILE_FINISH) && m_DDRaceState == DDRACE_STARTED)
-		Controller->m_Teams.OnCharacterFinish(m_pPlayer->GetCID());
-
 	// freeze
 	if(((m_TileIndex == TILE_FREEZE) || (m_TileFIndex == TILE_FREEZE)) && !m_Super && !m_DeepFreeze)
 		Freeze();
