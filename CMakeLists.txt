@@ -2059,7 +2059,7 @@ set(LIBS_SERVER
 )
 
 # Target
-set(TARGET_SERVER ${SERVER_EXECUTABLE})
+set(TARGET_SERVER infclass_srv)
 add_executable(${TARGET_SERVER}
   ${DEPS}
   ${SERVER_SRC}
