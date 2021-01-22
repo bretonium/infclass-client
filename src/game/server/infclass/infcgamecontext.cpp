@@ -9,7 +9,22 @@
 
 #include <game/server/score.h>
 
-#include "../gamemodes/DDRace.h"
+template<typename C>
+static CInfClassPlayerClass *constructor()
+{
+	return new C;
+}
+
+template<typename C>
+int CInfClassGameContext::RegisterInfClassClass()
+{
+	InfPlayerClassConstructor *con = &constructor<C>;
+	int ClassId = m_ClassConstructors.size();
+	m_ClassConstructors.push_back(con);
+	m_ClassIdToName.emplace(ClassId, C::ClassName());
+
+	return ClassId;
+}
 
 CInfClassGameContext::CInfClassGameContext()
 	: CGameContext()
@@ -304,6 +319,13 @@ void CInfClassGameContext::AnnounceSkinChange(int ClientID)
 void CInfClassGameContext::SendSkinChange(int ClientID, int TargetID)
 {
 	//CInfClassPlayer *pPlayer = static_cast<CInfClassPlayer*>(m_apPlayers[ClientID]);
+}
+
+CInfClassPlayerClass *CInfClassGameContext::CreateInfClass(int ClassId)
+{
+	InfPlayerClassConstructor *constructor = m_ClassConstructors.at(ClassId);
+	CInfClassPlayerClass *infClass = constructor();
+	return infClass;
 }
 
 IGameServer *CreateModGameServer() { return new CInfClassGameContext; }
