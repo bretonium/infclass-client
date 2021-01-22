@@ -8,6 +8,8 @@ class CInfClassCharacter : public CCharacter
 	MACRO_ALLOC_HEAP()
 public:
 	CInfClassCharacter(CGameWorld *pWorld);
+
+	void TakeAllWeapons();
 };
 
 #endif // GAME_SERVER_INFCLASS_ENTITIES_CHARACTER_H
