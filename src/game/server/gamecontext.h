@@ -254,6 +254,7 @@ public:
 	void *PreProcessMsg(int *MsgID, CUnpacker *pUnpacker, int ClientID);
 	void CensorMessage(char *pCensoredMessage, const char *pMessage, int Size);
 	virtual void OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID);
+	virtual void OnPreProcessedMessage(int MsgID, CUnpacker *pUnpacker, int ClientID, void *pRawMsg);
 
 	virtual void OnClientConnected(int ClientID, bool AsSpec);
 	virtual void OnClientEnter(int ClientID);

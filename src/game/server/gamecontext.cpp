@@ -1658,6 +1658,11 @@ void CGameContext::OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID)
 	if(!pRawMsg)
 		return;
 
+	OnPreProcessedMessage(MsgID, pUnpacker, ClientID, pRawMsg);
+}
+
+void CGameContext::OnPreProcessedMessage(int MsgID, CUnpacker *pUnpacker, int ClientID, void *pRawMsg)
+{
 	CPlayer *pPlayer = m_apPlayers[ClientID];
 
 	if(Server()->ClientIngame(ClientID))
