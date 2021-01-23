@@ -5,6 +5,7 @@
 
 #include "entities/infccharacter.h"
 
+#include "classes/infcplayerclass.h"
 #include "infcgamecontroller.h"
 #include "infcplayer.h"
 
@@ -25,6 +26,7 @@ void CGameControllerInfClass::OnCharacterSpawn(CCharacter *pChr)
 
 	// default health
 	pCharacter->IncreaseHealth(10);
+	pCharacter->GetClass()->OnCharacterSpawned();
 
 	// DDNet stuff needed for CGameControllerDDRace
 	pChr->SetTeams(&m_Teams);
