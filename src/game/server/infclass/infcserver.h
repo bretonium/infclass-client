@@ -7,6 +7,8 @@ class CInfClassServer : public CServer
 {
 public:
 	CInfClassServer();
+
+	const char *ClientClan(int ClientID) override;
 };
 
 #endif // GAME_SERVER_INFCLASS_MAP_H
